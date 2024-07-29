@@ -1,0 +1,10 @@
+langchain
+langchain-community
+streamlit
+huggingface-hub
+tiktoken
+python-dotenv
+pandas
+transformers
+torch
+pinecone-client
