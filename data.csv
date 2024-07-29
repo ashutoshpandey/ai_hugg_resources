@@ -1,7 +1,7 @@
 name,email,designation,skills
 ashutosh,ashutosh.pandey@datafortune.com,tech lead,java:.net:python:nodejs
-seema,seema.sharma@datafortune.com,tech lead,.net:angular
-shweta,shweta.marne@datafortune.com,tech lead,angular
-teja,tejal.parekh@datafortune.com,tech lead,ba
-sanika,sanika.doshi@datafortune.com,tech lead,hr
-gautham,gautham.test@datafortune.com,tech lead,.net:angular
+seema,seema.sharma@datafortune.com,backend developer,.net:angular
+shweta,shweta.marne@datafortune.com,frontend developer,angular
+tejal,tejal.parekh@datafortune.com,BA,ba
+sanika,sanika.doshi@datafortune.com,HR,hr
+gautham,gautham.test@datafortune.com,Backend developer,.net:angular

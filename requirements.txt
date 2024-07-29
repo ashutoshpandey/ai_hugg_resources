@@ -5,6 +5,7 @@ huggingface-hub
 tiktoken
 python-dotenv
 pandas
-transformers
+sentence-transformers
 torch
 pinecone-client
+langchain-huggingface

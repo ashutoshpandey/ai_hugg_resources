@@ -21,7 +21,7 @@ def get_user_input():
 
 # Create text embeddings
 def create_embeddings(data):
-    embeddings = embedding_util.create_embeddings(data)    
+    embeddings = embedding_util.create_embeddings(data) 
     pinecone_util.store_embeddings(embeddings)
 
 
@@ -31,6 +31,8 @@ def query_database(query, original_data):
     
     result = pinecone_util.process_query(query_embedding)
 
+    print(result)
+    print('**************************************')
     for match in result['matches']:
         print(original_data.iloc[int(match['id'])][['name', 'email', 'designation', 'skills']])
 

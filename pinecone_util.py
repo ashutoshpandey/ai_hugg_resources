@@ -26,25 +26,27 @@ class PineconeUtil:
             spec=ServerlessSpec(cloud='aws', region='us-east-1')
         )
 
+        self.pinecone_index = self.pinecone.Index(self.index_name)
+
         # wait for index to be initialized
         while not self.pinecone.describe_index(self.index_name).status['ready']:
             time.sleep(1)
 
-        print(f"Created index '{self.index_name}'")
+        print(f"Got index '{self.index_name}'")
 
     # Store embeddings in Pinecone
     def store_embeddings(self, embeddings):
-        index = self.pinecone.Index(self.index_name)
         batch_size = 100  # Define a batch size for upserting
 
-        vectors = [{"id": str(i), "values": row['embedding'].tolist()} for i, row in embeddings.iterrows()]
+        vectors = [{"id": str(i), "values": row['embedding']} for i, row in embeddings.iterrows()]
         for i in range(0, len(vectors), batch_size):
             batch = vectors[i:i + batch_size]
-            index.upsert(vectors=batch)
+            self.pinecone_index.upsert(vectors=batch)
 
     # Process the query
-    def process_query(self, embedding):
-        index = self.pinecone.Index(self.index_name)
-        query_embedding = embedding.tolist()  # Convert numpy array to list
-        result = index.query(queries=[{"values": query_embedding}], top_k=5)
+    def process_query(self, query_embedding):
+        result = self.pinecone_index.query(vector=[query_embedding], top_k=5)
+        
+        #index = Pinecone.from_documents(original_data, query_embedding, index_name = self.index_name)
+        #result = index.similarity_search(query_embedding, k=5)
         return result
