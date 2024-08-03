@@ -8,3 +8,4 @@ sentence-transformers
 torch
 pinecone-client
 langchain-huggingface
+faiss-cpu

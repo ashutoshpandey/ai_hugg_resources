@@ -5,12 +5,10 @@ from pinecone import Pinecone
 from pinecone import ServerlessSpec
 
 class PineconeUtil:
-    def __init__(self, create_index = False):
+    def __init__(self, create_index=False):
         self.index_name = 'df-resource'
         self.create_index = create_index
-
         self.initialize_pinecone()
-
 
     # Initialize Pinecone
     def initialize_pinecone(self):
@@ -25,7 +23,7 @@ class PineconeUtil:
             print('Creating index...')
             self.pinecone.create_index(
                 name=self.index_name,
-                dimension=384,  # Correct dimension for the embedding model used
+                dimension=4096,  # Correct dimension for the embedding model used
                 metric="cosine",
                 spec=ServerlessSpec(cloud='aws', region='us-east-1')
             )
@@ -38,17 +36,16 @@ class PineconeUtil:
 
         print(f"Got index '{self.index_name}'")
 
-
     # Store embeddings in Pinecone
     def store_embeddings(self, embeddings):
         batch_size = 100  # Define a batch size for upserting
 
-        vectors = [{"id": str(i), "values": row['embedding']} for i, row in embeddings.iterrows()]
+        vectors = [{"id": str(i), "values": row['embedding'].tolist()} for i, row in embeddings.iterrows()]
         for i in range(0, len(vectors), batch_size):
             batch = vectors[i:i + batch_size]
             self.pinecone_index.upsert(vectors=batch)
 
-
     # Process the query
     def process_query(self, query_embedding):
-        return self.pinecone_index.query(vector=[query_embedding], top_k=5)
+        query_vector = query_embedding.tolist()  # Convert numpy array to list
+        return self.pinecone_index.query(queries=[{"values": query_vector}], top_k=5)

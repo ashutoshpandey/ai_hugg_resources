@@ -1,12 +1,15 @@
 from csv_util import load_csv
-from pinecone_util import PineconeUtil
-from embedding_util import EmbeddingUtil
+from utils.vector.lib.pinecone_util import PineconeUtil
+from utils.embeddings.embedding_util import EmbeddingUtil
 
 embedding_util = EmbeddingUtil()
 pinecone_util = PineconeUtil(create_index=True)
 
 # Create text embeddings
 def create_embeddings(data):
+    print('Creating embedding for:')
+    print(data)
+    print('================================')
     embeddings = embedding_util.create_embeddings(data) 
     pinecone_util.store_embeddings(embeddings)
 
